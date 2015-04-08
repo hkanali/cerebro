@@ -1,4 +1,5 @@
-require "yaml"
+require 'yaml'
+require 'twitter'
 require 'tweetstream'
 
 class DrainTwitter
