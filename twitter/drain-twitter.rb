@@ -1,6 +1,12 @@
 require 'yaml'
 require 'twitter'
 require 'tweetstream'
+require 'active_record'
+
+db_conf = YAML::load_file("../database.yml")
+ActiveRecord::Base.establish_connection(db_conf["development"])
+class Twitterer < ActiveRecord::Base
+end
 
 class DrainTwitter
   def initialize
@@ -18,7 +24,7 @@ class DrainTwitter
     return @client
   end
 
-  def get_user_info(id)
+  def add_user_info(id)
     user = @client.user(id)
     p user.connections
     p user.description
@@ -38,8 +44,11 @@ class DrainTwitter
     p user.time_zone
     p user.utc_offset
     p user.screen_name
-    p user.id
+    p id = user.id
 #    p user.attrs
+
+    Twitterer.create(id: user.id, name: user.name, icon_path: nil, post_count: nil, follow_count: user.friends_count, follower_count: user.followers_count)
+    p Twitterer.all
   end
 
   def shed_stream
@@ -60,4 +69,4 @@ end
 
 dt = DrainTwitter.new
 #dt.shed_stream
-dt.get_user_info("masason")
+dt.add_user_info("masason")
