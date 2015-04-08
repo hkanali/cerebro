@@ -1,5 +1,7 @@
-# A sample Gemfile
 source "https://rubygems.org"
+ruby '2.1.2'
 
-gem "twitter"
-gem "tweetstream"
+gem 'twitter'
+gem 'tweetstream'
+gem 'activerecord'
+gem 'mysql2'
