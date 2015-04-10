@@ -9,16 +9,23 @@ class AnalyzeFollower
     @EXCLUDE_WORDS = open("./dic/stopword.txt","r").readlines.map(&:chomp)
     @EXCLUDE_REGEX = /[\d+\.\,\/:\(\);\[\]０-９]|^[\w|ぁ-ん|ァ-ヶ]$/
     @mecab = Natto::MeCab.new("-u ./dic/custom.dic")
-    @YAML_PATH = "../secret/API.yml"
+    @YAML_PATH = "../../config.yml"
   end
 
   def get_twitter_client(num=0)
     conf = YAML::load_file(@YAML_PATH)
     @client = Twitter::REST::Client.new do |config|
+      config.consumer_key = conf["twitter"]["consumer_key"]
+      config.consumer_secret = conf["twitter"]["consumer_secret"]
+      config.access_token = conf["twitter"]["access_token"]
+      config.access_token_secret = conf["twitter"]["access_token_secret"]
+
+=begin
       config.consumer_key = conf["tw_consumer_key#{num}"]
       config.consumer_secret = conf["tw_consumer_secret#{num}"]
       config.access_token = conf["tw_access_token#{num}"]
       config.access_token_secret = conf["tw_access_token_secret#{num}"]
+=end
     end
     @client
   end
