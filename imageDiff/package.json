@@ -14,8 +14,21 @@
     "morgan": "~1.5.1",
     "serve-favicon": "~2.2.0",
 
+
+    "co": "4.5.1",
+    "q": "1.2.0",
+
     "request": "2.55.0",
     "resemble": "1.2.1",
-    "gm": "1.17.0"
+    "gm": "1.17.0",
+
+
+
+    "passport": "0.2.1",
+    "facebook-search": "*",
+    "fbgraph": "*",
+    "passport-facebook": "2.0.0"
+
+
   }
 }

@@ -8,34 +8,9 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var request = require('request');
-var fs = require('fs');
+var main = require('./main');
 
-var resemble = require('resemble').resemble;
-
-var gm = require('gm');
-
-// callback warota
-req1 = request('https://raw.githubusercontent.com/Huddle/Resemble.js/master/demoassets/People.jpg').pipe(fs.createWriteStream('image/People.jpg'));
-
-req1.on('finish', function() {
-    req2 = request('https://raw.githubusercontent.com/Huddle/Resemble.js/master/demoassets/People2.jpg').pipe(fs.createWriteStream('image/People2.jpg'));
-    req2.on('finish', function() {
-        gm('image/People.jpg').noProfile().write('image/output/People.png', function (err) {
-            if (!err) {
-                gm('image/People2.jpg').noProfile().write('image/output/People2.png', function (err) {
-                    if (!err) {
-                        console.log('done');
-                        var diff = resemble('image/output/People.png').compareTo('image/output/People2.png').onComplete(function(data){
-                            console.log(data);
-                        });
-                    }
-                });
-            }
-        });
-    });
-});
-
+main.start();
 
 var app = express();
 
@@ -87,3 +62,4 @@ app.use(function(err, req, res, next) {
 
 
 module.exports = app;
+
