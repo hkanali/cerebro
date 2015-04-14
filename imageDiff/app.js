@@ -10,7 +10,7 @@ var users = require('./routes/users');
 
 var main = require('./main');
 
-main.start();
+main.run();
 
 var app = express();
 

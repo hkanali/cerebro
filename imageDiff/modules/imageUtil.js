@@ -6,7 +6,7 @@ var resemble = require('resemble').resemble;
 
 var util = {
     saveImage: function (url, savedName) {
-        request(url).pipe(fs.createWriteStream(savedName));
+        return request(url).pipe(fs.createWriteStream(savedName));
     },
     convertImage: function(orig, dest, callback) {
         gm(orig).noProfile().write(dest, callback);
