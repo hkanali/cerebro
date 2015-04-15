@@ -1,8 +1,8 @@
--- MySQL dump 10.13  Distrib 5.6.20, for osx10.9 (x86_64)
+-- MySQL dump 10.13  Distrib 5.6.21, for osx10.9 (x86_64)
 --
 -- Host: localhost    Database: cerebro
 -- ------------------------------------------------------
--- Server version	5.6.20
+-- Server version	5.6.21
 
 /*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
@@ -161,14 +161,22 @@ DROP TABLE IF EXISTS `twitterers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `twitterers` (
-  `id` varchar(11) NOT NULL DEFAULT '',
+  `id` int(11) unsigned NOT NULL,
+  `screen_name` varchar(15) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `website` varchar(255) DEFAULT NULL,
+  `location` varchar(255) DEFAULT NULL,
   `icon_path` varchar(255) DEFAULT NULL,
-  `post_count` int(11) unsigned DEFAULT '0',
-  `follow_count` int(11) unsigned DEFAULT '0',
-  `follower_count` int(11) unsigned DEFAULT '0',
+  `posts_count` int(11) unsigned DEFAULT '0',
+  `favorites_count` int(11) unsigned DEFAULT '0',
+  `follows_count` int(11) unsigned DEFAULT '0',
+  `followers_count` int(11) unsigned DEFAULT '0',
+  `listed_count` int(11) unsigned DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `screen_name` (`screen_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -215,4 +223,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-05 13:17:55
+-- Dump completed on 2015-04-15 22:24:37
