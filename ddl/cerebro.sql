@@ -173,6 +173,7 @@ CREATE TABLE `twitterers` (
   `follows_count` int(11) unsigned DEFAULT '0',
   `followers_count` int(11) unsigned DEFAULT '0',
   `listed_count` int(11) unsigned DEFAULT '0',
+  `born_at` datetime NOT NULL,
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`),
@@ -223,4 +224,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2015-04-15 22:24:37
+-- Dump completed on 2015-04-16  2:18:35
