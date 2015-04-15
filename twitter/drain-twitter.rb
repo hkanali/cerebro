@@ -6,6 +6,7 @@ require 'activerecord-import'
 
 $conf = YAML::load_file("../config.yml")
 ActiveRecord::Base.establish_connection($conf["mysql"]["prd"])
+# ActiveRecord::Base.establish_connection($conf["mysql"]["dev"])
 class Twitterer < ActiveRecord::Base
 end
 
@@ -94,22 +95,30 @@ class DrainTwitter
     end
   end
 
+  def infinity_token(id, token_num=0)
+    begin
+      get_rest_api_client(token_num)
+      user = @client.user(id)
+    rescue Twitter::Error::TooManyRequests => error
+      if token_num > 52
+        token_num = 0
+      else
+        p token_num += 1
+      end
+      retry
+    ensure
+      user
+    end
+  end
+
   #limit 180req/15min
   def add_users_info(ids)
     return if ids.size > 180
-    token_num = 0
-    users     = ids.map { |id|
+    users = ids.map { |id|
       begin
-        get_rest_api_client(token_num)
         user = @client.user(id)
-      rescue Twitter::Error::TooManyRequests => error
-        p "token_num: #{token_num}"
-        if token_num > 52
-          token_num = 0
-        else
-          token_num += 1
-        end
-        retry
+      rescue
+        user = infinity_token(id)
       end
       p Twitterer.new(
           id:              user.id,
@@ -124,10 +133,25 @@ class DrainTwitter
           follows_count:   user.friends_count,
           followers_count: user.followers_count,
           listed_count:    user.listed_count,
+          born_at:         user.created_at,
           created_at:      DateTime.now
         )
     }
     Twitterer.import users.to_a, :on_duplicate_key_update => [:screen_name, :name, :description, :website, :location, :icon_path, :posts_count, :favorites_count, :follows_count, :followers_count, :listed_count], :validate => false
+  end
+
+  def fill_in_column
+    ids = Twitterer.all.where(born_at: nil).pluck(:id)
+    ids.each do |id|
+      begin
+        user = @client.user(id)
+      rescue
+        user = infinity_token(id)
+      end
+      p user
+      born_at = user.created_at
+      Twitterer.find(id).update(born_at: born_at)
+    end
   end
 
   def main
@@ -144,3 +168,4 @@ dt = DrainTwitter.new
 # dt.shed_stream
 # dt.add_user_info("masason")
 dt.main
+# dt.fill_in_column
