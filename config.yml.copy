@@ -1,6 +1,20 @@
 # config.yml
+mysql:
+  dev:
+    adapter: mysql2
+    host: localhost
+    username: root
+    password:
+    database: cerebro
+  prd:
+    adapter: mysql2
+    host:
+    username:
+    password:
+    database:
+
 twitter:
-  consumer_key: ""
-  consumer_secret: ""
-  access_token: ""
-  access_token_secret: ""
+  consumer_key0:
+  consumer_secret0:
+  access_token0:
+  access_token_secret0: 
