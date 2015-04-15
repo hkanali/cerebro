@@ -163,7 +163,7 @@ DROP TABLE IF EXISTS `twitterers`;
 CREATE TABLE `twitterers` (
   `id` int(11) unsigned NOT NULL,
   `screen_name` varchar(15) NOT NULL DEFAULT '',
-  `name` varchar(255) NOT NULL,
+  `name` varchar(255) DEFAULT '',
   `description` varchar(255) DEFAULT NULL,
   `website` varchar(255) DEFAULT NULL,
   `location` varchar(255) DEFAULT NULL,
