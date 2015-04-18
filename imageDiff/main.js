@@ -92,7 +92,7 @@ var main = {
                 async.each(users, function(user, next) {
                     fb.getUserProfilePicUri(user['id'], function(err, res) {
                         // 画像がデフォルトの場合は詰めない
-                        if (!res['picture']['data']['is_silhouette']) {
+                        if (res && !res['picture']['data']['is_silhouette']) {
                             usersInfo.push(res);
                         }
                         next();
