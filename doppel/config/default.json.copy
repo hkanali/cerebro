@@ -1,0 +1,37 @@
+{
+    "observerKeys":
+    {
+        "consumerKey": "",
+        "consumerSecret": "",
+        "accessTokenKey": "",
+        "accessTokenSecret": ""
+    },
+    "doppelUsers":
+    [
+        {
+            "targetUser":
+            {
+                "id": ""
+            },
+            "user": {
+                "id": "",
+                "appKeys": {
+                    "consumerKey": "",
+                    "consumerSecret": "",
+                    "accessTokenKey": "",
+                    "accessTokenSecret": ""
+                }
+            }
+        }
+
+    ],
+    "stream":
+    {
+        "filter":
+        {
+            "locations": "139.163204, 35.259096, 140.599219, 36.026476",
+            "language": "ja",
+            "replies": false
+        }
+    }
+}
