@@ -41,14 +41,16 @@ var observeStream = function(client) {
             // 公式RTを弾く => 流れてこないです
             // 非公式RTを弾く RT先のリンクが入る
             if (tweet.entities.urls.length != 0) return;
+            if (tweet.text.match("/RT/")) return;
             // ハッシュタグも弾こうかな
             if (tweet.entities.hashtags.length != 0) return;
-            // 添付ファイル（画像・動画）も新しく生成したいな
-            // tweet.extended_entities.media の中に入ってる
-            // TODO 画像くらいなら新しく添付して投稿
-            if (tweet.extended_entities) return;
 
-            tweetByDoppel(tweet);
+            var photoUrls = null;
+            if (tweet.extended_entities && tweet.extended_entities.media) {
+                photoUrls = getPhotoUrls(tweet);
+            }
+
+            tweetByDoppel(tweet, photoUrls);
         });
 
         stream.on('error', function(error) {
@@ -57,11 +59,30 @@ var observeStream = function(client) {
     });
 };
 
-var tweetByDoppel = function(tweet) {
+var getPhotoUrls = function(tweet) {
+    // 画像以外は対応してません！
+    if(!tweet.extended_entities || !tweet.extended_entities.media) return null;
+    var media = tweet.extended_entities.media;
+    var photoUrls = [];
+    for (var i = 0; i < media.length; i++) {
+        if (media[i].type == 'photo') {
+            photoUrls.push(media[i].media_url);
+        }
+    }
+    return photoUrls;
+}
+
+var tweetByDoppel = function(tweet, photoUrls) {
     var doppels = getDoppels();
     for (var i = 0; i < doppels.length; i++) {
         if (tweet.user.id == doppels[i]['id']) {
-            postTweet(doppels[i]['client'], tweet.text);
+            if (photoUrls == null) {
+                // 画像無し
+                postTweet(doppels[i]['client'], tweet.text);
+            } else {
+                // 画像有り
+                postTweetWithPhotos(doppels[i]['client'], tweet.text, photoUrls);
+            }
         }
     }
 };
@@ -73,6 +94,45 @@ var postTweet = function(client, tweetText) {
         }
     });
 };
+
+var postTweetWithPhotos = function(client, tweetText, photoUrls) {
+    // Load your image
+    // TODO 一つだけ
+    var request = require('request');
+    var fse = require('fs-extra');
+    var fs = require('fs');
+
+    var photoUrl = photoUrls[0];
+    var tmpDir = './tmp/';
+
+    // TODO jpg以外あるのかな?
+    request(photoUrl).pipe(fs.createWriteStream(tmpDir + 'image.jpg')).on('finish', function() {
+        var data = fs.readFileSync(tmpDir + 'image.jpg');
+        // Make post request on media endpoint. Pass file data as media parameter
+        client.post('media/upload', {media: data}, function(error, media, response){
+
+            fse.removeSync(tmpDir + 'image.jpg');
+
+            if (!error) {
+
+                // If successful, a media object will be returned.
+                console.log(media);
+
+                // Lets tweet it
+                var status = {
+                    status: tweetText,
+                    media_ids: media.media_id_string // Pass the media id string
+                }
+
+                client.post('statuses/update', status, function(error, tweet, response){
+                    if (!error) {
+                        console.log(tweet);
+                    }
+                });
+            }
+        });
+    });
+}
 
 
 var createTargetUsersIds = function() {
