@@ -41,7 +41,7 @@ var observeStream = function(client) {
             // 公式RTを弾く => 流れてこないです
             // 非公式RTを弾く RT先のリンクが入る
             if (tweet.entities.urls.length != 0) return;
-            if (tweet.text.match("/RT/")) return;
+            if (tweet.text.match(/RT/)) return;
             // ハッシュタグも弾こうかな
             if (tweet.entities.hashtags.length != 0) return;
 
