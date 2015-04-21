@@ -9,8 +9,12 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 
 var twitter = require('./modules/twitter');
+var heroku = require('./modules/heroku');
 
 var app = express();
+
+// 1時間毎に叩き起こす
+heroku.init('https://safe-river-1164.herokuapp.com/', 1 * 60 * 60 * 1000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
