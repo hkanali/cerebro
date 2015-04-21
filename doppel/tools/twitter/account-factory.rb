@@ -5,30 +5,30 @@ require 'csv'
 
 class AccountFactory
   def initialize
-    @driver = Selenium::WebDriver.for :firefox
   end
 
   def register_twitter(screen_name, email, password, user_name)
     # あとで登録成功チェックする
+    driver = Selenium::WebDriver.for :firefox
     begin
-      @driver.get("https://twitter.com/signup")
-      @driver.find_element(id: "full-name").send_keys screen_name
-      @driver.find_element(id: "email").send_keys email
-      @driver.find_element(id: "password").send_keys password
-      @driver.find_element(id: "username").send_keys user_name
+      driver.get("https://twitter.com/signup")
+      driver.find_element(id: "full-name").send_keys screen_name
+      driver.find_element(id: "email").send_keys email
+      driver.find_element(id: "password").send_keys password
+      driver.find_element(id: "username").send_keys user_name
       sleep(2)
-      @driver.find_element(id: "submit_button").click
+      driver.find_element(id: "submit_button").click
 
       # logout
-      @driver.get("https://twitter.com/")
+      driver.get("https://twitter.com/")
 
       sleep(1)
-      @driver.find_element(xpath: "//*[@id='user-dropdown-toggle']").click
-      @driver.find_element(xpath: "//*[@id='signout-button']/button").click
+      driver.find_element(xpath: "//*[@id='user-dropdown-toggle']").click
+      driver.find_element(xpath: "//*[@id='signout-button']/button").click
     rescue => e
       p e
     ensure
-      @driver.close
+      driver.close
     end
   end
 
