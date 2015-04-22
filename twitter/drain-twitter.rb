@@ -1,27 +1,20 @@
 require 'yaml'
 require 'twitter'
 require 'tweetstream'
-require 'active_record'
-require 'activerecord-import'
-
-$conf = YAML::load_file("../config.yml")
-ActiveRecord::Base.establish_connection($conf["mysql"]["prd"])
-# ActiveRecord::Base.establish_connection($conf["mysql"]["dev"])
-class Twitterer < ActiveRecord::Base
-end
+require_relative 'models/twitterer'
 
 class DrainTwitter
   def initialize
-    # @conf = YAML::load_file("../config.yml")
+    @conf = YAML::load_file("../config.yml")
     get_rest_api_client
   end
 
   def get_rest_api_client(token_num=0)
     @client = Twitter::REST::Client.new do |config|
-      config.consumer_key        = $conf["twitter"]["consumer_key#{token_num}"]
-      config.consumer_secret     = $conf["twitter"]["consumer_secret#{token_num}"]
-      config.access_token        = $conf["twitter"]["access_token#{token_num}"]
-      config.access_token_secret = $conf["twitter"]["access_token_secret#{token_num}"]
+      config.consumer_key        = @conf["twitter"]["consumer_key#{token_num}"]
+      config.consumer_secret     = @conf["twitter"]["consumer_secret#{token_num}"]
+      config.access_token        = @conf["twitter"]["access_token#{token_num}"]
+      config.access_token_secret = @conf["twitter"]["access_token_secret#{token_num}"]
     end
     return @client
   end
@@ -72,10 +65,10 @@ class DrainTwitter
 
   def shed_stream
     TweetStream.configure do |config|
-      config.consumer_key       = $conf["twitter"]["consumer_key0"]
-      config.consumer_secret    = $conf["twitter"]["consumer_secret0"]
-      config.oauth_token        = $conf["twitter"]["access_token0"]
-      config.oauth_token_secret = $conf["twitter"]["access_token_secret0"]
+      config.consumer_key       = @conf["twitter"]["consumer_key0"]
+      config.consumer_secret    = @conf["twitter"]["consumer_secret0"]
+      config.oauth_token        = @conf["twitter"]["access_token0"]
+      config.oauth_token_secret = @conf["twitter"]["access_token_secret0"]
       config.auth_method        = :oauth
     end
 
@@ -141,7 +134,7 @@ class DrainTwitter
   end
 
   def fill_in_column
-    ids = Twitterer.all.where(born_at: nil).pluck(:id)
+    ids = Twitterer.where(born_at: nil).pluck(:id)
     ids.each do |id|
       begin
         user = @client.user(id)
