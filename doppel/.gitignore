@@ -3,6 +3,9 @@
 ### config
 default.json
 
+### images
+*.jpg
+
 ### Node ###
 # Logs
 logs
