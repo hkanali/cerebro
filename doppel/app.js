@@ -8,8 +8,8 @@ var bodyParser = require('body-parser');
 var routes = require('./routes/index');
 var users = require('./routes/users');
 
-var twitter = require('./modules/twitter');
 var heroku = require('./modules/heroku');
+var main = require('./main');
 
 var app = express();
 
