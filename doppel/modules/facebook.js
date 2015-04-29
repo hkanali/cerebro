@@ -62,7 +62,6 @@ var facebook = {
             .goto('https://www.facebook.com/login.php?next=https%3A%2F%2Fdevelopers.facebook.com%2Ftools%2Fexplorer%2F' + appId + '%2F%3Fmethod%3DGET%26path%3Dme%253Ffields%253Did%252Cname%26version%3Dv2.3')
             .type('input[name="email"]', username)
             .type('input[name="pass"]', password)
-            .screenshot('img.jpg')
             .click('#loginbutton')
             .wait(10000)
             .evaluate(function() {

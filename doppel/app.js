@@ -14,7 +14,7 @@ var main = require('./main');
 var app = express();
 
 // 1時間毎に叩き起こす
-heroku.init('https://aqueous-woodland-6824.herokuapp.com/', 1 * 60 * 60 * 1000);
+heroku.init('https://cerebro1989.herokuapp.com/', 1 * 60 * 60 * 1000);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
