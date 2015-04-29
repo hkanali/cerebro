@@ -5,6 +5,8 @@ var wakeup = function(url, time) {
         request.get(url, function(err, res, body){
             if(!err && res.statusCode == 200) {
                 console.log('!!!! WAKE UP !!!!');
+            } else {
+                console.log('there is something wrong');
             }
         });
     }, time);
