@@ -23,10 +23,11 @@ var facebook = {
         console.log('login FB');
         new Nightmare()
             .goto('https://www.facebook.com')
+            .wait(5000)
             .type('input[name="email"]', username)
             .type('input[name="pass"]', password)
             .click('#loginbutton')
-            .wait(3000)
+            .wait(5000)
             /*
                .evaluate(function() {
                return document.title;
@@ -46,3 +47,4 @@ var facebook = {
 };
 
 module.exports = facebook;
+
