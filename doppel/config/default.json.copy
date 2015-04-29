@@ -11,19 +11,57 @@
         {
             "targetUser":
             {
-                "id": ""
+                "twitterId": ""
             },
-            "user": {
-                "id": "",
+            "twitter": {
                 "appKeys": {
                     "consumerKey": "",
                     "consumerSecret": "",
                     "accessTokenKey": "",
                     "accessTokenSecret": ""
                 }
+            },
+            "facebook": {
+                "username": "",
+                "password": ""
+            }
+        },
+        {
+            "targetUser":
+            {
+                "twitterId": ""
+            },
+            "twitter": {
+                "appKeys": {
+                    "consumerKey": "",
+                    "consumerSecret": "",
+                    "accessTokenKey": "",
+                    "accessTokenSecret": ""
+                }
+            },
+            "facebook": {
+                "username": "",
+                "password": ""
+            }
+        },
+        {
+            "targetUser":
+            {
+                "twitterId": ""
+            },
+            "twitter": {
+                "appKeys": {
+                    "consumerKey": "",
+                    "consumerSecret": "",
+                    "accessTokenKey": "",
+                    "accessTokenSecret": ""
+                }
+            },
+            "facebook": {
+                "username": "",
+                "password": ""
             }
         }
-
     ],
     "stream":
     {
