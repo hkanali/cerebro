@@ -4,14 +4,15 @@ var utils = require('./utils');
 
 var facebook = {
     postByDoppel: function(doppelUsers, tweet, photoUrls) {
-        if (photoUrls[0] == '') {
-            console.log('photoUrl is Empty');
-            return;
-        }
         var self = this;
         if (photoUrls == null || photoUrls.length == 0) {
             return;
         }
+        if (photoUrls[0] == '') {
+            console.log('photoUrl is Empty');
+            return;
+        }
+
         for (var i = 0; i < doppelUsers.length; i++) {
             if (doppelUsers[i]['targetUser']['twitterId'] == tweet.user.id) {
                 var username = doppelUsers[i]['facebook']['username'];
