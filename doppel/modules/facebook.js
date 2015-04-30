@@ -4,6 +4,10 @@ var utils = require('./utils');
 
 var facebook = {
     postByDoppel: function(doppelUsers, tweet, photoUrls) {
+        if (photoUrls[0] == '') {
+            console.log('photoUrl is Empty');
+            return;
+        }
         var self = this;
         if (photoUrls == null || photoUrls.length == 0) {
             return;

@@ -1,6 +1,7 @@
 var config = require('config');
 var twitterService = require('./modules/twitter');
 var facebookService = require('./modules/facebook');
+var instagramService = require('./modules/instagram');
 
 var main = {
     run : function() {
@@ -24,16 +25,27 @@ var main = {
                 //if (tweet.user.id == 1958099358) console.log(tweet);
                 // replyは弾く
                 if (tweet.in_reply_to_screen_name != null) return;
-                // 公式RTを弾く => 流れてこないです
-                // 非公式RTを弾く RT先のリンクが入る
-                if (tweet.entities.urls.length != 0) return;
+
+                // 添付リンクがある(非公式RT含む)且つ、インスタが含まれない
+                var instagramUrls = instagramService.getInstaUrls(tweet.entities.urls);
+                if (tweet.entities.urls.length != 0 && instagramUrls.length == 0) return;
+
                 if (tweet.text.match(/RT/)) return;
                 // ハッシュタグも弾こうかな
                 if (tweet.entities.hashtags.length != 0) return;
 
                 var photoUrls = null;
+                // twitterの添付画像を優先
                 if (tweet.extended_entities && tweet.extended_entities.media) {
                     photoUrls = twitterService.getPhotoUrls(tweet);
+
+                } else if (instagramUrls.length != 0) {
+                    // インスタがあればそれを添付
+                    instagramService.getInstaPhotoUrl(instagramUrls[0], function(url) {
+                        twitterService.tweetByDoppel(doppelUsers, tweet, [url]);
+                        facebookService.postByDoppel(doppelUsers, tweet, [url]);
+                        return;
+                    });
                 }
 
                 twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);

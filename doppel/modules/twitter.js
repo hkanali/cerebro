@@ -70,6 +70,10 @@ var twitterService = {
         var fs = require('fs');
 
         var photoUrl = photoUrls[0];
+        if (photoUrl == '') {
+            console.log('photoUrl is Empty');
+            return;
+        }
         var tmpDir = './tmp/';
 
         // TODO jpg以外あるのかな?
