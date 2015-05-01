@@ -39,17 +39,19 @@ var main = {
                 if (tweet.extended_entities && tweet.extended_entities.media) {
                     photoUrls = twitterService.getPhotoUrls(tweet);
 
+                    twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);
+                    facebookService.postByDoppel(doppelUsers, tweet, photoUrls);
+                    console.log('with twitter photo');
+
                 } else if (instagramUrls.length != 0) {
                     // インスタがあればそれを添付
                     instagramService.getInstaPhotoUrl(instagramUrls[0], function(url) {
                         twitterService.tweetByDoppel(doppelUsers, tweet, [url]);
                         facebookService.postByDoppel(doppelUsers, tweet, [url]);
-                        return;
+                        console.log('with instagram photo');
                     });
                 }
 
-                twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);
-                facebookService.postByDoppel(doppelUsers, tweet, photoUrls);
             });
 
             stream.on('error', function(error) {
