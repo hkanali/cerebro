@@ -52,6 +52,10 @@ var main = {
                     });
                 }
 
+                twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);
+                facebookService.postByDoppel(doppelUsers, tweet, photoUrls);
+                console.log('no photo');
+
             });
 
             stream.on('error', function(error) {
