@@ -53,13 +53,18 @@ router.get('/callback', function(req, res, next) {
 });
 
 router.post('/callback', function(req, res, next) {
-    var stream = req.body;
-    switch (stream[0].object) {
+    var stream = req.body[0];
+    switch (stream.object) {
         case 'tag' :
-            var url = 'https://api.instagram.com/v1/tags/' + stream.object_id + '/media/recent?client_id=' + instagramConf['clientId'] + '&count=1';
+            var url = 'https://api.instagram.com/v1/tags/' + encodeURIComponent(stream.object_id) + '/media/recent?client_id=' + instagramConf['clientId'] + '&count=1';
+            console.log('ACCESS!: ' + url);
             request(url, function (error, response, body) {
                 if (!error && response.statusCode == 200) {
                     console.log(JSON.parse(body).data[0]);
+                } else {
+                    console.log(body);
+                    console.log(error);
+                    console.log(response.statusCode);
                 }
             });
             break;
