@@ -71,5 +71,10 @@
             "language": "ja",
             "replies": false
         }
+    },
+    "instagram":
+    {
+        "clientId": "",
+        "clientSecret": ""
     }
 }
