@@ -1,4 +1,11 @@
 {
+    "db":
+    {
+        "hostName": "",
+        "userName": "",
+        "password": "",
+        "dbName": ""
+    },
     "observerKeys":
     {
         "consumerKey": "",
@@ -71,5 +78,10 @@
             "language": "ja",
             "replies": false
         }
+    },
+    "instagram":
+    {
+        "clientId": "",
+        "clientSecret": ""
     }
 }

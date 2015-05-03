@@ -9,7 +9,7 @@ var facebook = {
             return;
         }
         if (photoUrls[0] == '') {
-            console.log('photoUrl is Empty');
+            console.log('[Facebook] photoUrl is Empty');
             return;
         }
 
@@ -31,7 +31,7 @@ var facebook = {
     },
 
     post: function(username, password, content, photoUrls) {
-        console.log('login FB');
+        console.log('[Facebook] login');
         new Nightmare()
             .goto('https://www.facebook.com')
             .wait(5000)
@@ -51,8 +51,8 @@ var facebook = {
             //.wait(10000) // ここでプレビュー出したいけどうまくいかない
             .click('form > div > div > div > ul > li:nth-child(2) > button')
             .run(function (err, nightmare) {
-                if (err) console.log(err);
-                console.log('FB post Completed!');
+                if (err) console.error(err);
+                console.log('[Facebook] post completed!');
             });
     },
     /**
@@ -72,19 +72,19 @@ var facebook = {
             .evaluate(function() {
                 return document.querySelector('#gx-auth > div > label > input').value;
             }, function (token) {
-                console.log('got token!');
+                console.log('[Facebook] got token!');
                 self.postWithGraph(token, postData);
             })
             .run(function (err, nightmare) {
-                if (err) console.log(err);
-                console.log('completed!');
+                if (err) console.error(err);
+                console.log('[Facebook] post completed!');
             });
             
     },
     postWithGraph : function (token, postData) {
         graph.post('me/photos', {access_token: token, message: postData.message, url: postData.url}, function(err, res) {
             // returns the post id
-            console.log(res); // { id: xxxxx}
+            console.log('[Facebook] postId: ' + res.id);
         });
     }
 };
