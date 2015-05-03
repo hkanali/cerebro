@@ -54,7 +54,7 @@ router.get('/callback', function(req, res, next) {
 });
 
 router.post('/callback', function(req, res, next) {
-    instagramService.getRealTimeStream(req, instagramConf['clientId']);
+    instagramService.getRealTimeStream(req, instagramConf['clientId'], instagramConf['accessToken']);
     res.render('instagram/index', { title: 'Cerebro' });
 });
 

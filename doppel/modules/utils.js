@@ -18,6 +18,15 @@ var utils = {
             res += photoUrls[i] + '\n';
         }
         return res;
+    },
+
+    deleteNullFields: function(object) {
+        for(var key in object){
+            if (!object[key]) {
+                delete object[key];
+            }
+        }
+        return object;
     }
 };
 
