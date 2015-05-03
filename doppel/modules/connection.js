@@ -1,14 +1,15 @@
+var config = require('config');
 var mysql = require('mysql');
 
 var utils = require('./utils');
 
+var dbConfig = config.get('db');
 var pool = mysql.createPool({
-    host: process.env.DB_HOST || 'localhost',
-    user: process.env.DB_USER || 'root',
-    password: process.env.DB_PASS || 'root',
-    database: process.env.DB_NAME || 'cerebro'
+    host: dbConfig.hostName,
+    user: dbConfig.userName,
+    password: dbConfig.password,
+    database: dbConfig.dbName
 });
-
 
 var connection = {
     select : function (tableName, id, callback) {

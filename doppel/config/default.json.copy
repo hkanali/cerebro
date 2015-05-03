@@ -1,4 +1,11 @@
 {
+    "db":
+    {
+        "hostName": "",
+        "userName": "",
+        "password": "",
+        "dbName": ""
+    },
     "observerKeys":
     {
         "consumerKey": "",
