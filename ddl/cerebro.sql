@@ -56,7 +56,7 @@ DROP TABLE IF EXISTS `instagramers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `instagramers` (
-  `id` varchar(11) NOT NULL DEFAULT '',
+  `id` varchar(30) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
   `description` varchar(255) DEFAULT NULL,
   `icon_path` varchar(255) DEFAULT NULL,
@@ -64,7 +64,8 @@ CREATE TABLE `instagramers` (
   `follow_count` int(11) unsigned DEFAULT '0',
   `follower_count` int(11) unsigned DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
