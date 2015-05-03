@@ -57,7 +57,7 @@ var twitterService = {
     postTweet : function(client, tweetText) {
         client.post('statuses/update', {status: tweetText}, function(error, tweet, response) {
             if (!error) {
-                console.log(tweet);
+                console.log('[Twitter] user: ' + tweet['user']['screen_name'] + ', text: ' + tweet.text);
             }
         });
     },
@@ -71,7 +71,7 @@ var twitterService = {
 
         var photoUrl = photoUrls[0];
         if (photoUrl == '') {
-            console.log('photoUrl is Empty');
+            console.log('[Twitter] photoUrl is Empty');
             return;
         }
         var tmpDir = './tmp/';
@@ -87,7 +87,7 @@ var twitterService = {
                 if (!error) {
 
                     // If successful, a media object will be returned.
-                    console.log(media);
+                    // console.log(media);
 
                     // Lets tweet it
                     var status = {
@@ -97,7 +97,7 @@ var twitterService = {
 
                     client.post('statuses/update', status, function(error, tweet, response){
                         if (!error) {
-                            console.log(tweet);
+                            console.log('[Twitter] user: ' + tweet['user']['screen_name'] + ', text: ' + tweet.text);
                         }
                     });
                 }

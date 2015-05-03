@@ -1,4 +1,5 @@
 var Nightmare = require('nightmare');
+var request = require('request');
 
 var instagram = {
     getInstaUrls : function(urls) {
@@ -12,7 +13,7 @@ var instagram = {
     },
 
     getInstaPhotoUrl : function(url, callback) {
-        console.log('open instagram url: ' + url);
+        console.log('[Instagram] open url: ' + url);
         new Nightmare()
             .goto(url)
             .wait(5000)
@@ -23,8 +24,28 @@ var instagram = {
                 callback(photoUrl);
             })
             .run(function (err, nightmare) {
-                if (err) console.log(err);
+                if (err) console.error(err);
             });
+    },
+
+    getRealTimeStream : function (req, clientId) {
+        var stream = req.body[0];
+        var objectPlural = stream['object'] + 's';
+        if (stream.object == 'geography') {
+            objectPlural = 'geographies';
+        }
+        var url = 'https://api.instagram.com/v1/' + objectPlural + '/' + encodeURIComponent(stream['object_id']) + '/media/recent?client_id=' + clientId + '&count=1';
+        console.log('[Instagram] access!: ' + url);
+        request(url, function (error, response, body) {
+            if (!error && response.statusCode == 200) {
+                var data = JSON.parse(body).data[0];
+                console.log('[Instagram] user: ' + data['user']['username'] + ', link: ' + data['link']);
+            } else {
+                console.error(body);
+                console.error(error);
+                console.error(response.statusCode);
+            }
+        });
     }
 };
 

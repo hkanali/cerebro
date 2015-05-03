@@ -4,6 +4,8 @@ var router = express.Router();
 var request = require('request');
 var config = require('config');
 
+var instagramService = require('../modules/instagram');
+
 var instagramConf = config.get('instagram');
 
 router.get('/', function(req, res, next) {
@@ -21,7 +23,7 @@ router.get('/', function(req, res, next) {
     };
     request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, function(err, httpResponse, body) {
         if (err) {
-            console.log(err);
+            console.error(err);
         } else {
             console.log(body);
         }
@@ -37,7 +39,7 @@ router.get('/', function(req, res, next) {
     };
     request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, function(err, httpResponse, body) {
         if (err) {
-            console.log(err);
+            console.error(err);
         } else {
             console.log(body);
         }
@@ -48,29 +50,11 @@ router.get('/', function(req, res, next) {
 });
 
 router.get('/callback', function(req, res, next) {
-    var challenge = req.query['hub.challenge'];
-    res.render('instagram/callback', { challenge: challenge });
+    res.render('instagram/callback', { challenge: req.query['hub.challenge'] });
 });
 
 router.post('/callback', function(req, res, next) {
-    var stream = req.body[0];
-    switch (stream.object) {
-        case 'tag' :
-            var url = 'https://api.instagram.com/v1/tags/' + encodeURIComponent(stream.object_id) + '/media/recent?client_id=' + instagramConf['clientId'] + '&count=1';
-            console.log('ACCESS!: ' + url);
-            request(url, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    console.log(JSON.parse(body).data[0]);
-                } else {
-                    console.log(body);
-                    console.log(error);
-                    console.log(response.statusCode);
-                }
-            });
-            break;
-        case 'geography' :
-            break;
-    }
+    instagramService.getRealTimeStream(req, instagramConf['clientId']);
     res.render('instagram/index', { title: 'Cerebro' });
 });
 
