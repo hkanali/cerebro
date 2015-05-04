@@ -44,7 +44,7 @@ var instagram = {
                 var data = JSON.parse(body).data[0];
                 console.log('[Instagram] user: ' + data['user']['username'] + ', link: ' + data['link']);
                 // TODO きゃー、herokuからsakuraちゃんをみれるのかしら〜？？
-                // self.insertUserInfo(data['user'], accessToken);
+                self.insertUserInfo(data['user'], accessToken);
             } else {
                 console.error(body);
                 console.error(error);
@@ -53,7 +53,7 @@ var instagram = {
         });
     },
 
-    insertUserInfo : function (user) {
+    insertUserInfo : function (user, accessToken) {
         var url = 'https://api.instagram.com/v1/users/' + user['id'] + '?access_token=' + accessToken;
         request(url, function (error, response, body) {
             var userInfo = JSON.parse(body).data;

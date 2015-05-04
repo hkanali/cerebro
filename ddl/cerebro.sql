@@ -58,7 +58,7 @@ DROP TABLE IF EXISTS `instagramers`;
 CREATE TABLE `instagramers` (
   `id` varchar(30) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` text,
   `icon_path` varchar(255) DEFAULT NULL,
   `post_count` int(11) unsigned DEFAULT '0',
   `follow_count` int(11) unsigned DEFAULT '0',
