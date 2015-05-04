@@ -22,7 +22,7 @@ var utils = {
 
     deleteNullFields: function(object) {
         for(var key in object){
-            if (!object[key]) {
+            if (object[key] == null || object[key] == undefined) {
                 delete object[key];
             }
         }
