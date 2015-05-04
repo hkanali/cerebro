@@ -69,7 +69,42 @@ var instagram = {
                 }
             });
         });
-    } 
+    },
+
+    registerTagSubscript : function(clientId, clientSecret, instaCallbackUrl, tagName, callback) {
+        var formData = {
+            client_id: clientId,
+            client_secret: clientSecret,
+            object: 'tag',
+            aspect: 'media',
+            object_id: tagName,
+            callback_url: instaCallbackUrl
+        };
+        request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, callback);
+    },
+
+    registerGeoSubscript : function() {
+        /*
+        var formData = {
+        client_id: instagramConf['clientId'],
+        client_secret: instagramConf['clientSecret'],
+        object: 'geography',
+        aspect: 'media',
+        lat: '35.658517', // @Shibuya Station
+        lng: '139.701334',
+        radius: '20000',
+        verify_token: 'cerebro1989',
+        callback_url: 'https://cerebro1989.herokuapp.com/instagram/callback'
+        };
+        request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, function(err, httpResponse, body) {
+        if (err) {
+        console.error(err);
+        } else {
+        console.log(body);
+        }
+        });
+        */
+    }
 };
 
 module.exports = instagram;
