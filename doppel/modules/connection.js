@@ -43,6 +43,9 @@ var connection = {
         });
     },
     delete : function (tableName, id) {
+    },
+    getConnection : function (callback) {
+        return pool.getConnection(callback);
     }
 };
 

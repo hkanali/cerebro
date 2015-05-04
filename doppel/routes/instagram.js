@@ -10,7 +10,7 @@ var instagramConf = config.get('instagram');
 
 router.get('/', function(req, res, next) {
     var tagName = req.query['tagName'];
-    if (tagName != '') {
+    if (tagName != '' && tagName != undefined) {
         instagramService.registerTagSubscript(instagramConf['clientId'],
             instagramConf['clientSecret'],
             'https://cerebro1989.herokuapp.com/instagram/callback',
@@ -22,7 +22,11 @@ router.get('/', function(req, res, next) {
                 }
             });
     }
-    res.render('instagram/index', { title: 'Instagram REAL-TIME API on Cerebro' });
+
+    instagramService.countUsers(function(result) {
+        res.render('instagram/index', { title: 'Instagram REAL-TIME API on Cerebro', userCount: result[0].count });
+    });
+
 });
 
 router.get('/callback', function(req, res, next) {

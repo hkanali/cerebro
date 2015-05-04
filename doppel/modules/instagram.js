@@ -104,6 +104,9 @@ var instagram = {
         }
         });
         */
+    },
+    countUsers : function (callback) {
+        instagramConnection.countUsers(callback);
     }
 };
 

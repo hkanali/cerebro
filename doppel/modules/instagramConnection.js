@@ -49,6 +49,16 @@ var instagramConnection = {
         ), callback);
     },
     delete : function (id) {
+    },
+    countUsers : function (callback) {
+        connection.getConnection(function(err, connection) {
+            var query = connection.query('SELECT count(id) as count from INSTAGRAMERS', function(err, result) {
+                if (err) console.error(err);
+                callback(result);
+                connection.release();
+            });
+            console.log(query.sql);
+        });
     }
 };
 
