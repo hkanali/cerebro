@@ -25,6 +25,7 @@ var main = {
                 //if (tweet.user.id == 1958099358) console.log(tweet);
                 // replyは弾く
                 if (tweet.in_reply_to_screen_name != null) return;
+                if (tweet.text.match(/@/)) return;
 
                 // 添付リンクがある(非公式RT含む)且つ、インスタが含まれない
                 var instagramUrls = instagramService.getInstaUrls(tweet.entities.urls);
@@ -50,12 +51,11 @@ var main = {
                         facebookService.postByDoppel(doppelUsers, tweet, [url]);
                         console.log('with instagram photo');
                     });
+                } else {
+                    twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);
+                    facebookService.postByDoppel(doppelUsers, tweet, photoUrls);
+                    console.log('no photo');
                 }
-
-                twitterService.tweetByDoppel(doppelUsers, tweet, photoUrls);
-                facebookService.postByDoppel(doppelUsers, tweet, photoUrls);
-                console.log('no photo');
-
             });
 
             stream.on('error', function(error) {
