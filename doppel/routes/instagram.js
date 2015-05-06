@@ -9,44 +9,24 @@ var instagramService = require('../modules/instagram');
 var instagramConf = config.get('instagram');
 
 router.get('/', function(req, res, next) {
-    /*
-    var formData = {
-        client_id: instagramConf['clientId'],
-        client_secret: instagramConf['clientSecret'],
-        object: 'geography',
-        aspect: 'media',
-        lat: '35.658517', // @Shibuya Station
-        lng: '139.701334',
-        radius: '20000',
-        verify_token: 'cerebro1989',
-        callback_url: 'https://cerebro1989.herokuapp.com/instagram/callback'
-    };
-    request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, function(err, httpResponse, body) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(body);
-        }
+    var tagName = req.query['tagName'];
+    if (tagName != '' && tagName != undefined) {
+        instagramService.registerTagSubscript(instagramConf['clientId'],
+            instagramConf['clientSecret'],
+            req.headers['host'] + '/instagram/callback',
+            tagName, function(err, httpResponse, body) {
+                if (err) {
+                    console.error(err);
+                } else {
+                    console.log(body);
+                }
+            });
+    }
+
+    instagramService.countUsers(function(result) {
+        res.render('instagram/index', { title: 'Instagram REAL-TIME API on Cerebro', userCount: result[0].count });
     });
 
-    var formData = {
-        client_id: instagramConf['clientId'],
-        client_secret: instagramConf['clientSecret'],
-        object: 'tag',
-        aspect: 'media',
-        object_id: '渋谷',
-        callback_url: 'https://cerebro1989.herokuapp.com/instagram/callback'
-    };
-    request.post({url: 'https://api.instagram.com/v1/subscriptions/', form: formData}, function(err, httpResponse, body) {
-        if (err) {
-            console.error(err);
-        } else {
-            console.log(body);
-        }
-    });
-    */
-
-    res.render('instagram/index', { title: 'Instagram REAL-TIME API on Cerebro' });
 });
 
 router.get('/callback', function(req, res, next) {

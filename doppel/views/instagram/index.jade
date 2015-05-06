@@ -5,4 +5,21 @@ block content
     section.content
       h1= title
       p Welcome to #{title}
+      p User Count: #{userCount} users
+
+      form(
+        name='registerTag'
+        action='/instagram'
+        method='get'
+      )
+        input(
+          type='text'
+          name='tagName'
+          placeholder='登録するタグを入力してね！「#」はいらないよ！'
+          size='50'
+        )
+        input(
+          type='submit'
+          value='登録！'
+        )
 

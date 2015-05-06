@@ -56,9 +56,11 @@ DROP TABLE IF EXISTS `instagramers`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
 CREATE TABLE `instagramers` (
-  `id` varchar(30) NOT NULL DEFAULT '',
+  `id` varchar(30) NOT NULL,
   `name` varchar(255) NOT NULL,
+  `full_name` varchar(255) DEFAULT NULL,
   `description` text,
+  `website` varchar(255) DEFAULT NULL,
   `icon_path` varchar(255) DEFAULT NULL,
   `post_count` int(11) unsigned DEFAULT '0',
   `follow_count` int(11) unsigned DEFAULT '0',
