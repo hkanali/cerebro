@@ -25,7 +25,9 @@ var instagramConnection = {
         connection.insert(tableName, createInstagramer(
             userInfo.id,
             userInfo.username,
+            userInfo.full_name,
             userInfo.bio,
+            userInfo.website,
             userInfo.profile_picture,
             userInfo.counts.media,
             userInfo.counts.follows,
@@ -39,7 +41,9 @@ var instagramConnection = {
         connection.update(tableName, createInstagramer(
             userInfo.id,
             userInfo.username,
+            userInfo.full_name,
             userInfo.bio,
+            userInfo.website,
             userInfo.profile_picture,
             userInfo.counts.media,
             userInfo.counts.follows,
@@ -62,12 +66,14 @@ var instagramConnection = {
     }
 };
 
-var createInstagramer = function (id, name, description, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
+var createInstagramer = function (id, name, fullName, description, website, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
     var mysql = require('mysql');
     return {
         id: id,
         name: name,
+        full_name: fullName,
         description: description,
+        website: website,
         icon_path: iconPath,
         post_count: postCount,
         follow_count: followCount,
