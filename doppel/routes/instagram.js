@@ -13,7 +13,7 @@ router.get('/', function(req, res, next) {
     if (tagName != '' && tagName != undefined) {
         instagramService.registerTagSubscript(instagramConf['clientId'],
             instagramConf['clientSecret'],
-            'https://cerebro1989.herokuapp.com/instagram/callback',
+            req.headers['host'] + '/instagram/callback',
             tagName, function(err, httpResponse, body) {
                 if (err) {
                     console.error(err);
