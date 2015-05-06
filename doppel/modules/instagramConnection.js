@@ -56,7 +56,7 @@ var instagramConnection = {
     },
     countUsers : function (callback) {
         connection.getConnection(function(err, connection) {
-            var query = connection.query('SELECT count(id) as count from INSTAGRAMERS', function(err, result) {
+            var query = connection.query('SELECT count(id) as count from ' + tableName, function(err, result) {
                 if (err) console.error(err);
                 callback(result);
                 connection.release();
@@ -66,12 +66,12 @@ var instagramConnection = {
     }
 };
 
-var createInstagramer = function (id, name, fullName, description, website, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
+var createInstagramer = function (id, name, fullname, description, website, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
     var mysql = require('mysql');
     return {
         id: id,
         name: name,
-        full_name: fullName,
+        full_name: fullname,
         description: description,
         website: website,
         icon_path: iconPath,
