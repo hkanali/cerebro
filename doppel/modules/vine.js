@@ -24,8 +24,8 @@ var myVine = {
                 if (err.code == 420) {
                     console.log('[Vine] 出直してきます！その1');
                     setTimeout(function() {
-                        self.getFollowers(username, password, userId, nextPage);
-                    }, 1000 * 60 * 60);
+                        self.getUsers(username, password, userId, nextPage);
+                    }, 1000 * 60 * 30);
                 }
                 return;
             }
@@ -39,8 +39,8 @@ var myVine = {
                         if (err.code == 420) {
                             console.log('[Vine] 出直してきます！その2');
                             setTimeout(function() {
-                                self.getFollowers(username, password, userId, nextPage);
-                            }, 1000 * 60 * 60);
+                                self.getUsers(username, password, userId, nextPage);
+                            }, 1000 * 60 * 30);
                         }
                         // TODO FIXME ここcallback内なので、options.size = 1 にしないと大変なことになるんやで・・
                         return;

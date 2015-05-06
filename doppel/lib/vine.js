@@ -25,6 +25,7 @@ function make_request(endpoint, data, callback) {
 		req.body = querystring.stringify(data);
 	}
 
+	console.log('[Vine] request uri ' + req.uri);
 	request(req, handle_response(callback));
 }
 
