@@ -14,7 +14,6 @@ router.get('/', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
     var targetUserId = req.body['targetUserId'];
-    console.log('post!' + req.body);
     if (targetUserId) {
         vineService.getUsers(vineConf['username'], vineConf['password'], targetUserId);
     }

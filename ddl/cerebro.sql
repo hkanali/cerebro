@@ -233,7 +233,7 @@ CREATE TABLE `viners` (
   `icon_path` varchar(255) DEFAULT NULL,
   `post_count` int(11) unsigned DEFAULT '0',
   `follow_count` int(11) unsigned DEFAULT '0',
-  `follower_countCopy` int(11) unsigned DEFAULT '0',
+  `follower_count` int(11) unsigned DEFAULT '0',
   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   UNIQUE KEY `id` (`id`)
