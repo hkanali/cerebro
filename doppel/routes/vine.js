@@ -15,7 +15,7 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
     var targetUserId = req.body['targetUserId'];
     if (targetUserId) {
-        vineService.getUsers(vineConf['username'], vineConf['password'], targetUserId);
+        vineService.getUsers(vineConf['username'], vineConf['password'], targetUserId, null);
     }
     vineService.countUsers(function(result) {
         res.render('vine/index', { title: 'Vine on Cerebro', userCount: result[0].count });

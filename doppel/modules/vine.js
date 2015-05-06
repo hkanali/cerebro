@@ -3,26 +3,47 @@ var vine = require('../lib/vine');
 
 var vineConnection = require('./vineConnection');
 
+var nextPage = 1;
+
 var myVine = {
-    getUsers : function (username, password, targetUserId) {
+    getUsers : function (username, password, targetUserId, page) {
         var self = this;
         vine.login(username, password, function(err, res) {
-            self.getFollowers(targetUserId, null);
+            self.getFollowers(username, password, targetUserId, page);
         });
     },
-    // TODO privateにする！
-    getFollowers : function (userId, page) {
+    getFollowers : function (username, password, userId, page) {
         var self = this;
         var options = {
             page: page,
             size: 1
         };
         vine.followers(userId, options, function(err, response) {
-            if (err) console.log(err);
+            if (err) {
+                console.error(err);
+                if (err.code == 420) {
+                    console.log('[Vine] 出直してきます！その1');
+                    setTimeout(function() {
+                        self.getFollowers(username, password, userId, nextPage);
+                    }, 1000 * 60 * 60);
+                }
+                return;
+            }
+
             if (!response || !response.nextPage) return;
             for (var i = 0; i < response.size; i++) {
                 var followerUserId = response.records[i].userId;
                 vine.profiles(followerUserId, function(err, userInfo) {
+                    if (err) {
+                        console.error(err);
+                        if (err.code == 420) {
+                            console.log('[Vine] 出直してきます！その2');
+                            setTimeout(function() {
+                                self.getFollowers(username, password, userId, nextPage);
+                            }, 1000 * 60 * 60);
+                        }
+                        return;
+                    }
                     vineConnection.select(userInfo.userId.toString(), function(res) {
                         if (!res) {
                             vineConnection.insert(userInfo, function (res) {
@@ -36,10 +57,11 @@ var myVine = {
                     });
                 });
             }
+            nextPage = response.nextPage; 
             // 叩き過ぎるとはじかれちゃうう〜
             // 10秒だけ待ってやろう
             setTimeout(function() {
-                self.getFollowers(userId, response.nextPage);
+                self.getFollowers(username, password, userId, response.nextPage);
             }, 10000);
         });
     },
