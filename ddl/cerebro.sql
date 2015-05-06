@@ -217,6 +217,37 @@ LOCK TABLES `users` WRITE;
 /*!40000 ALTER TABLE `users` DISABLE KEYS */;
 /*!40000 ALTER TABLE `users` ENABLE KEYS */;
 UNLOCK TABLES;
+
+--
+-- Table structure for table `viners`
+--
+
+DROP TABLE IF EXISTS `viners`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `viners` (
+  `id` varchar(30) NOT NULL DEFAULT '',
+  `name` varchar(255) NOT NULL DEFAULT '',
+  `description` text,
+  `location` varchar(30) DEFAULT NULL,
+  `icon_path` varchar(255) DEFAULT NULL,
+  `post_count` int(11) unsigned DEFAULT '0',
+  `follow_count` int(11) unsigned DEFAULT '0',
+  `follower_countCopy` int(11) unsigned DEFAULT '0',
+  `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  UNIQUE KEY `id` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `viners`
+--
+
+LOCK TABLES `viners` WRITE;
+/*!40000 ALTER TABLE `viners` DISABLE KEYS */;
+/*!40000 ALTER TABLE `viners` ENABLE KEYS */;
+UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;

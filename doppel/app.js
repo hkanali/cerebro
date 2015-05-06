@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var routes = require('./routes/index');
 var instagram = require('./routes/instagram');
+var vine = require('./routes/vine');
 
 var heroku = require('./modules/heroku');
 var main = require('./main');
@@ -30,6 +31,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/instagram', instagram);
+app.use('/vine', vine);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

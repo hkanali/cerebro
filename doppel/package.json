@@ -20,6 +20,7 @@
 
     "config": "~1.12.0",
     "nightmare": "~1.8.0",
+    "json-bigint": "~0.1.4",
 
     "fbgraph": "~0.3.0",
     "twitter": "~1.2.5"

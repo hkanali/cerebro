@@ -1,0 +1,25 @@
+extends ../layout
+
+block content
+  header.container
+    section.content
+      h1= title
+      p Welcome to #{title}
+      p User Count: #{userCount} users
+
+      form(
+        name='getUsers'
+        action='/vine'
+        method='post'
+      )
+        input(
+          type='text'
+          name='targetUserId'
+          placeholder='ユーザーID、今度ユーザー名にします〜'
+          size='50'
+        )
+        input(
+          type='submit'
+          value='Cerebroる！'
+        )
+
