@@ -42,6 +42,7 @@ var myVine = {
                                 self.getFollowers(username, password, userId, nextPage);
                             }, 1000 * 60 * 60);
                         }
+                        // TODO FIXME ここcallback内なので、options.size = 1 にしないと大変なことになるんやで・・
                         return;
                     }
                     vineConnection.select(userInfo.userId.toString(), function(res) {
