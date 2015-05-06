@@ -219,13 +219,13 @@ LOCK TABLES `users` WRITE;
 UNLOCK TABLES;
 
 --
--- Table structure for table `viners`
+-- Table structure for table `vinners`
 --
 
-DROP TABLE IF EXISTS `viners`;
+DROP TABLE IF EXISTS `vinners`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!40101 SET character_set_client = utf8 */;
-CREATE TABLE `viners` (
+CREATE TABLE `vinners` (
   `id` varchar(30) NOT NULL DEFAULT '',
   `name` varchar(255) NOT NULL DEFAULT '',
   `description` text,
@@ -241,12 +241,12 @@ CREATE TABLE `viners` (
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
--- Dumping data for table `viners`
+-- Dumping data for table `vinners`
 --
 
-LOCK TABLES `viners` WRITE;
-/*!40000 ALTER TABLE `viners` DISABLE KEYS */;
-/*!40000 ALTER TABLE `viners` ENABLE KEYS */;
+LOCK TABLES `vinners` WRITE;
+/*!40000 ALTER TABLE `vinners` DISABLE KEYS */;
+/*!40000 ALTER TABLE `vinners` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

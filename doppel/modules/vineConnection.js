@@ -1,5 +1,5 @@
 var connection = require('./connection');
-var tableName = 'VINERS';
+var tableName = 'VINNERS';
 
 var vineConnection = {
     /**
@@ -37,7 +37,7 @@ var vineConnection = {
     },
     insert : function(userInfo, callback) {
         var now = new Date();
-        connection.insert(tableName, createViner(
+        connection.insert(tableName, createVinner(
             userInfo.userId.toString(),
             userInfo.username,
             userInfo.description,
@@ -62,7 +62,7 @@ var vineConnection = {
     },
     update : function (userInfo, callback) {
         var now = new Date();
-        connection.update(tableName, createViner(
+        connection.update(tableName, createVinner(
             userInfo.userId.toString(),
             userInfo.username,
             userInfo.description,
@@ -99,7 +99,7 @@ var vineConnection = {
     }
 };
 
-var createViner = function (id, name, description, location, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
+var createVinner = function (id, name, description, location, iconPath, postCount, followCount, followerCount, createdAt, updatedAt) {
     var mysql = require('mysql');
     return {
         id: id,
