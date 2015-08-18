@@ -1,3 +1,5 @@
 source "https://rubygems.org"
 
 gem 'mechanize'
+gem 'activerecord'
+gem 'activerecord-import'

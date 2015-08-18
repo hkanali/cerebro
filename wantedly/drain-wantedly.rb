@@ -2,10 +2,18 @@
 #-*- coding:utf-8 -*-
 require 'yaml'
 require 'mechanize'
+require 'active_record'
+require 'activerecord-import'
+
+$conf = YAML::load_file("../config.yml")
+ActiveRecord::Base.establish_connection($conf["mysql"]["prd"])
+class Facebooker < ActiveRecord::Base
+end
+class SocialRelation < ActiveRecord::Base
+end
 
 class DrainWantedly
   def initialize
-    @conf = YAML::load_file("../config.yml")
     @agent = Mechanize.new
 
     @top_url = "https://www.wantedly.com"
@@ -15,8 +23,8 @@ class DrainWantedly
     begin
       @agent.get(@top_url).link_with(href: "#login_modal").click
       @agent.page.form_with(action: "/user/sign_in") do |form|
-        form.field_with(id: "user_email").value = @conf["wantedly"]["email"]
-        form.field_with(id: "user_password").value = @conf["wantedly"]["pw"]
+        form.field_with(id: "user_email").value = $conf["wantedly"]["email"]
+        form.field_with(id: "user_password").value = $conf["wantedly"]["pw"]
       end.click_button
     rescue => e
       p e
