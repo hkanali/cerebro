@@ -160,5 +160,7 @@ end
 dt = DrainTwitter.new
 # dt.shed_stream
 # dt.add_user_info("masason")
-dt.main
+loop do
+  dt.main
+end
 # dt.fill_in_column
