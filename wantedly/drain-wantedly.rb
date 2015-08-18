@@ -58,6 +58,9 @@ class DrainWantedly
       user = get_user(i)
       next if user.nil? || user[:uid].nil?
       p user
+      #ここでhttps://www.wantedly.com/users/#{i}に入ってユーザ名抜く処理かく
+      
+      #Facebooker、SocialRelationモデルに整形してUpsertする処理かく
     end
 
     #あと保存処理かく
