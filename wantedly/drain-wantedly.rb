@@ -31,7 +31,7 @@ class DrainWantedly
       puts "error: failed to login"
       exit
     end
-    p "logged-in"
+    p "logged-in!!"
   end
 
   def get_user(id)
@@ -42,28 +42,75 @@ class DrainWantedly
     end
     user = JSON.parse(body)
 
+    #get_name
+    begin
+      body = @agent.get("https://www.wantedly.com/users/#{id}")
+    rescue => e
+      return
+    end
+    name = $1 if body.title =~ /^(.*) プロフィール - Wantedly/
+
+
+#    facebook_url = user["data"]["profile"]["facebook_url"]
+    twitter_url = user["data"]["profile"]["twitter_url"]
+#    linkedin_url = user["data"]["profile"]["linkedin_url"]
+    twitter_id = $1 if twitter_url =~ /twitter\.com\/(.*)$/
+    workspace = user["data"]["profile"]["working_histories"].first["company"] rescue nil
+    college = user["data"]["profile"]["academic_records"].last["school"] rescue nil
+    if user["data"]["facebook_uid"]
+      id = user["data"]["facebook_uid"]
+    else
+      id = $1 if user["data"]["avatar_url"] =~ /graph\.facebook\.com\/(\d+)\//
+    end
     {
-      uid: user["data"]["facebook_uid"],
-      facebook_url: user["data"]["profile"]["facebook_url"],
-      twitter_url: user["data"]["profile"]["twitter_url"],
-      linkedin_url: user["data"]["profile"]["linkedin_url"]
+      id: id,
+      name: name,
+      icon_path: user["data"]["avatar_url"],
+      workspace: workspace,
+      college: college,
+      twitter_id: twitter_id
     }
+  end
+
+  def bulk_upsert(users_h=[{}])
+    facebookers = []
+    relations = []
+    users_h.each{|user|
+      facebookers << Facebooker.new(
+        id: user[:id],
+        name: user[:name],
+        icon_path: user[:icon_path],
+        workspace: user[:workspace],
+        college: user[:college],
+        created_at: nil
+      )
+
+      relations << SocialRelation.new(
+        master_id: user[:id],
+        social_type: 1, #twitterは1と決める
+        social_id: user[:twitter_id]
+      ) if user[:twitter_id]
+    }
+
+    Facebooker.import facebookers, on_duplicate_key_update: [:name, :icon_path, :post_count, :workspace, :college, :friend_count, :telphone, :email, :relations, :address], validate: false
+    SocialRelation.import relations, on_duplicate_key_update: [:social_id], validate: false unless relations.empty?
   end
 
   def main
     login
-    #p get_user(450212)
+
+    users = []
     for i in 1..20000000 do
       p "----------#{i}-----------"
-      user = get_user(i)
-      next if user.nil? || user[:uid].nil?
-      p user
-      #ここでhttps://www.wantedly.com/users/#{i}に入ってユーザ名抜く処理かく
-      
-      #Facebooker、SocialRelationモデルに整形してUpsertする処理かく
+      p user = get_user(i)
+      next if user.nil? || user[:id].nil?
+      users << user
+      if i % 50 == 0
+        bulk_upsert(users)
+        p "upsert!!!!!!!"
+        users = []
+      end
     end
-
-    #あと保存処理かく
   end
 end
 
